@@ -1,6 +1,4 @@
 #!/bin/bash
-#inputgraph="DNGQU0102_10.contigs.gfa"
-#inputfasta="DNGQU0102_10.contigs.fasta"
 inputgraph=$1
 inputfasta=$2
 declare -A seqs
@@ -19,7 +17,7 @@ while read line; do
 	if [[ $linetype == "S" ]]; then
 		seqid=`echo -e "$line" | cut -f 2`
 		curseq=${seqs[$seqid]}
-		linepostfix==`echo -e "$line" | cut -f 4- | sed 's/=//g;s/=//g'`
+		linepostfix=`echo -e "$line" | cut -f 4-`
 		echo -e "S	$seqid	$curseq	$linepostfix"
 	elif [[ $linetype == "L" ]]; then
 		oldcigar=`echo -e "$line" | cut -f 6`
@@ -40,7 +38,6 @@ while read line; do
 		done
 		overlap+="M"
 		lineprefix=`echo -e "$line" | cut -f 1-5`
-		#linepostfix=`echo -e "$line" | cut -f 7-`
 		echo -e "$lineprefix	$overlap"
 	else
 		echo -e "$line"
